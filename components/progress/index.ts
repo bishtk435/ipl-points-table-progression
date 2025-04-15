@@ -5,4 +5,5 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { ErrorMessage } from './ErrorMessage';
 export { Header } from './Header';
 export { MatchCard } from './MatchCard';
-export { MatchesSidebar } from './MatchesSidebar'; 
+export { MatchesSidebar } from './MatchesSidebar';
+export { TeamRankGraph } from './TeamRankGraph'; 
