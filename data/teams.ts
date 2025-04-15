@@ -13,6 +13,7 @@ export interface TeamInfo {
     previousNames: string[];
     homeVenueId?: string;
     teamLogoUrl?: string;
+    primaryColor?: string;
 }
 
 /**
@@ -25,7 +26,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "RCB",
         previousNames: ['Royal Challengers Bangalore'],
         homeVenueId: "m-chinnaswamy-stadium-bengaluru-57897",
-        teamLogoUrl: "/team_logos/RCB.avif"
+        teamLogoUrl: "/team_logos/RCB.avif",
+        primaryColor: "#D1161E"
     },
     {
         name: "Kolkata Knight Riders",
@@ -33,7 +35,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "KKR",
         previousNames: [],
         homeVenueId: "eden-gardens-kolkata-57980",
-        teamLogoUrl: "/team_logos/KKR.avif"
+        teamLogoUrl: "/team_logos/KKR.avif",
+        primaryColor: "#3A225D"
     },
     {
         name: "Punjab Kings",
@@ -41,7 +44,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "PBKS",
         previousNames: ['Kings XI Punjab'],
         homeVenueId: "i-s-bindra-punjab-cricket-association-stadium-57991",
-        teamLogoUrl: "/team_logos/PBK.avif"
+        teamLogoUrl: "/team_logos/PBK.avif",
+        primaryColor: "#ED1B24"
     },
     {
         name: "Chennai Super Kings",
@@ -49,7 +53,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "CSK",
         previousNames: [],
         homeVenueId: "ma-chidambaram-stadium-chepauk-chennai-58008",
-        teamLogoUrl: "/team_logos/CSK.avif"
+        teamLogoUrl: "/team_logos/CSK.avif",
+        primaryColor: "#F9CD05"
     },
     {
         name: "Delhi Capitals",
@@ -57,7 +62,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "DC",
         previousNames: ['Delhi Daredevils'],
         homeVenueId: "arun-jaitley-stadium-delhi-58040",
-        teamLogoUrl: "/team_logos/DC.avif"
+        teamLogoUrl: "/team_logos/DC.avif",
+        primaryColor: "#0078BC"
     },
     {
         name: "Rajasthan Royals",
@@ -65,7 +71,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "RR",
         previousNames: [],
         homeVenueId: "sawai-mansingh-stadium-jaipur-58162",
-        teamLogoUrl: "/team_logos/RR.avif"
+        teamLogoUrl: "/team_logos/RR.avif",
+        primaryColor: "#EA1A85"
     },
     {
         name: "Mumbai Indians",
@@ -73,7 +80,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "MI",
         previousNames: [],
         homeVenueId: "wankhede-stadium-mumbai-58324",
-        teamLogoUrl: "/team_logos/MI.avif"
+        teamLogoUrl: "/team_logos/MI.avif",
+        primaryColor: "#004BA0"
     },
     {
         name: "Deccan Chargers",
@@ -81,14 +89,16 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "DEC",
         previousNames: [],
         homeVenueId: "rajiv-gandhi-international-stadium-uppal-hyderabad-58142",
-        teamLogoUrl: "/team_logos/DEC.avif"
+        teamLogoUrl: "/team_logos/DEC.avif",
+        primaryColor: "#D1B000"
     },
     {
         name: "Kochi Tuskers Kerala",
         id: "kochi-tuskers-kerala-474668",
         shortName: "KTK",
         previousNames: [],
-        teamLogoUrl: "/team_logos/KTK.avif"
+        teamLogoUrl: "/team_logos/KTK.avif",
+        primaryColor: "#FF6600"
     },
     {
         name: "Pune Warriors",
@@ -96,7 +106,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "PWI",
         previousNames: [],
         homeVenueId: "subrata-roy-stadium-pune-58143",
-        teamLogoUrl: "/team_logos/PWI.avif"
+        teamLogoUrl: "/team_logos/PWI.avif",
+        primaryColor: "#2F9BE3"
     },
     {
         name: "Sunrisers Hyderabad",
@@ -104,7 +115,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "SRH",
         previousNames: [],
         homeVenueId: "hyderabad-international-cricket-stadium-hyderabad-58144",
-        teamLogoUrl: "/team_logos/SRH.avif"
+        teamLogoUrl: "/team_logos/SRH.avif",
+        primaryColor: "#F7A721"
     },
     {
         name: "Rising Pune Supergiants",
@@ -112,7 +124,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "RPS",
         previousNames: [],
         homeVenueId: "subrata-roy-stadium-pune-58143",
-        teamLogoUrl: "/team_logos/RPS.avif"
+        teamLogoUrl: "/team_logos/RPS.avif",
+        primaryColor: "#803B85"
     },
     {
         name: "Gujarat Lions",
@@ -120,7 +133,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "GL",
         previousNames: [],
         homeVenueId: "narendra-modi-stadium-ahmedabad-58145",
-        teamLogoUrl: "/team_logos/GL.avif"
+        teamLogoUrl: "/team_logos/GL.avif",
+        primaryColor: "#E05D0D"
     },
     {
         name: "Lucknow Super Giants",
@@ -128,7 +142,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "LSG",
         previousNames: [],
         homeVenueId: "narendra-modi-stadium-ahmedabad-58145",
-        teamLogoUrl: "/team_logos/LSG.avif"
+        teamLogoUrl: "/team_logos/LSG.avif",
+        primaryColor: "#A72056"
     },
     {
         name: "Gujarat Titans",
@@ -136,7 +151,8 @@ export const IPL_TEAMS: TeamInfo[] = [
         shortName: "GT",
         previousNames: [],
         homeVenueId: "narendra-modi-stadium-ahmedabad-58145",
-        teamLogoUrl: "/team_logos/GT.avif"
+        teamLogoUrl: "/team_logos/GT.avif",
+        primaryColor: "#1C3C7C"
     }
 ];
 
