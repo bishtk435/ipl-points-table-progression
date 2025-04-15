@@ -128,9 +128,9 @@ export default function HomePage() {
           {/* Points Table Progression Feature */}
           <div className="shadow-xl rounded-xl mb-8">
             <div className="flex flex-col items-center text-center mb-6">
-              <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
+              <h5 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
                 Points Table Progression
-              </h2>
+              </h5>
               <p className="text-lg md:text-xl font-medium text-gray-600 dark:text-gray-300 max-w-3xl">
                 Visualize the dynamic journey of teams throughout the tournament with our interactive points table progression tool.
               </p>
