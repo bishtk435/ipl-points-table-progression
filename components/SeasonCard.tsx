@@ -1,5 +1,6 @@
 import { FiCalendar, FiUsers, FiAward, FiTrendingUp } from "react-icons/fi";
 import { BiTrophy } from "react-icons/bi";
+import { AiOutlineTable } from "react-icons/ai";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -74,16 +75,29 @@ export function SeasonCard({
                 )}
               </div>
               
-              <Link href={`/season/${year}`} passHref>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="ml-2 text-xs whitespace-nowrap flex items-center gap-2 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900 dark:hover:text-blue-200 transform hover:translate-x-1 transition-all rounded-lg border-gray-200 dark:border-gray-700 shadow-sm px-4 py-2.5 font-medium"
-                >
-                  <FiTrendingUp className="w-4 h-4" />
-                  <span className="hidden md:inline">View</span> Progression
-                </Button>
-              </Link>
+              <div className="flex flex-wrap gap-2">
+                <Link href={`/season/${year}`} passHref>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-xs whitespace-nowrap flex items-center gap-2 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900 dark:hover:text-blue-200 transform hover:translate-x-1 transition-all rounded-lg border-gray-200 dark:border-gray-700 shadow-sm px-4 py-2.5 font-medium"
+                  >
+                    <FiTrendingUp className="w-4 h-4" />
+                    <span className="hidden md:inline">View</span> Season
+                  </Button>
+                </Link>
+                
+                <Link href={`/progress/${year}`} passHref>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-xs whitespace-nowrap flex items-center gap-2 hover:bg-indigo-50 hover:text-indigo-700 dark:hover:bg-indigo-900 dark:hover:text-indigo-200 transform hover:translate-x-1 transition-all rounded-lg border-gray-200 dark:border-gray-700 shadow-sm px-4 py-2.5 font-medium"
+                  >
+                    <AiOutlineTable className="w-4 h-4" />
+                    <span className="hidden md:inline">Points</span> Table
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
