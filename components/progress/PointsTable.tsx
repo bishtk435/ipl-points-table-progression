@@ -2,14 +2,21 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { getTeamInfo } from '@/data/teams';
 import { TeamStanding, ResultEntry } from '@/types/progress';
+import { seasons } from '@/data/seasons';
+import { FaTrophy } from 'react-icons/fa';
 
 interface PointsTableProps {
   pointsTable: TeamStanding[];
   selectedTeamId: string | null;
   onSelectTeam: (teamId: string) => void;
+  seasonYear: string;
 }
 
-export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam }: PointsTableProps) => {
+export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam, seasonYear }: PointsTableProps) => {
+  // Get champion team for this season
+  const seasonData = seasons.find(season => season.season_year.toString() === seasonYear);
+  const championTeamId = seasonData?.champion_team || '';
+  
   // Get the last 5 results for a team
   const getLast5Results = (results: ResultEntry[]) => {
     return results.slice(-5).map(result => {
@@ -64,6 +71,7 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam }: Point
             {pointsTable.map((team, index) => {
               const isPlayoffTeam = team.rank <= 4;
               const isSelected = selectedTeamId === team.teamId;
+              const isChampion = team.teamId === championTeamId;
               const teamInfo = getTeamInfo(team.teamName);
               const last5 = getLast5Results(team.result_progression);
               
@@ -85,6 +93,7 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam }: Point
                     <div className={`
                       flex items-center justify-center w-8 h-8 rounded-full 
                       ${isSelected ? 'bg-indigo-500 text-white' :
+                        isChampion ? 'bg-amber-600 text-white' :
                         isPlayoffTeam ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'}
                       font-bold text-sm
                     `}>
@@ -104,17 +113,15 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam }: Point
                         </div>
                       )}
                       <div className="flex flex-col">
-                        <div className="text-sm font-medium text-white">
+                        <div className="flex items-center text-sm font-medium text-white">
                           {team.teamName}
+                          {isChampion && (
+                            <FaTrophy className="ml-2 text-amber-400" size={14} title="Champion Team" />
+                          )}
                         </div>
                         {isPlayoffTeam && (
                           <div className="text-xs text-indigo-400">
                             Playoff Qualification
-                          </div>
-                        )}
-                        {isSelected && (
-                          <div className="text-xs text-purple-300">
-                            Selected for Analysis
                           </div>
                         )}
                       </div>

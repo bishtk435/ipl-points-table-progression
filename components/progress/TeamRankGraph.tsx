@@ -146,15 +146,7 @@ export const TeamRankGraph = ({ progression, teamId, currentIndex }: TeamRankGra
         <div className="mt-4 text-sm text-gray-300 bg-gray-800/50 p-3 rounded-lg border border-gray-700">
           <p>
             Teams placed <span className="font-semibold text-indigo-400">at or above rank 4</span> qualify 
-            for the playoffs. {currentRank <= 4 ? (
-              <span className="text-green-400">
-                Currently on track for playoff qualification!
-              </span>
-            ) : (
-              <span className="text-yellow-400">
-                Needs to improve ranking to qualify for playoffs.
-              </span>
-            )}
+            for the playoffs.
           </p>
         </div>
       </div>
