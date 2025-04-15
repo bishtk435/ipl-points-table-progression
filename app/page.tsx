@@ -7,8 +7,6 @@ import { SeasonFilters } from "@/components/SeasonFilters";
 import { seasons } from "@/data/seasons";
 import { IPL_TEAMS } from "@/data/teams";
 import { BiTrophy } from "react-icons/bi";
-import { AiOutlineTable, AiOutlineBarChart } from "react-icons/ai";
-import Link from "next/link";
 
 export default function HomePage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -122,68 +120,20 @@ export default function HomePage() {
     return IPL_TEAMS.find(team => team.id === teamId);
   };
 
-  // Get last 5 seasons for quick links
-  const recentSeasons = useMemo(() => {
-    return [...seasons]
-      .sort((a, b) => b.season_year - a.season_year)
-      .slice(0, 5);
-  }, []);
-
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <main className="flex flex-col items-center justify-between p-4 md:p-8 lg:p-12 flex-1">
         <div className="max-w-6xl w-full">
-          <div className="mb-10 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 mb-4">
-              IPL Points Table Progression
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Explore the journey of IPL seasons through points table progressions.
-              Discover how teams performed throughout each tournament.
-            </p>
-          </div>
           
           {/* Points Table Progression Feature */}
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-8">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                  <AiOutlineBarChart className="h-6 w-6 text-indigo-500" />
-                  Points Table Progression
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Watch how the points table evolved match by match throughout the season. See teams rise and fall in the standings as the tournament progresses.
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4">
-                  {recentSeasons.map((season) => (
-                    <Link 
-                      key={season.season_year}
-                      href={`/progress/${season.season_year}`}
-                      className="flex items-center justify-center bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 py-2 px-3 rounded-lg font-medium text-sm transition-all"
-                    >
-                      <AiOutlineTable className="mr-1 h-4 w-4" />
-                      {season.season_year}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="flex-shrink-0 bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-xl shadow-lg w-full md:w-64">
-                <div className="text-white text-lg font-semibold mb-2">Features:</div>
-                <ul className="text-white/90 text-sm space-y-2">
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span> Dynamic table updates
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span> Match-by-match progression
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span> Team performance tracking
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span> Interactive playback controls
-                  </li>
-                </ul>
-              </div>
+          <div className="shadow-xl rounded-xl mb-8">
+            <div className="flex flex-col items-center text-center mb-6">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
+                Points Table Progression
+              </h2>
+              <p className="text-lg md:text-xl font-medium text-gray-600 dark:text-gray-300 max-w-3xl">
+                Visualize the dynamic journey of teams throughout the tournament with our interactive points table progression tool.
+              </p>
             </div>
           </div>
           

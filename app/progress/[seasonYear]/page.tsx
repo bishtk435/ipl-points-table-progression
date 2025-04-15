@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { 
   Header, 
-  MatchDetails, 
   PlaybackControls, 
   PointsTable, 
   LoadingSpinner, 
-  ErrorMessage 
+  ErrorMessage,
+  MatchesSidebar 
 } from '@/components/progress';
 import { PointsProgression } from '@/types/progress';
+import Image from 'next/image';
+import { getTeamInfo } from '@/data/teams';
 
 export default function PointsTableProgression() {
   const params = useParams<{ seasonYear: string }>();
@@ -93,6 +95,11 @@ export default function PointsTableProgression() {
     setPlaySpeed(speed);
   };
 
+  const handleSelectMatch = (index: number) => {
+    setCurrentIndex(index);
+    setIsPlaying(false);
+  };
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -115,19 +122,78 @@ export default function PointsTableProgression() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-900 text-gray-100">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto pb-24">
         <Header seasonYear={seasonYear} />
         
-        <MatchDetails 
-          matchNumber={currentSnapshot.matchNumber}
-          totalMatches={totalMatches}
-          matchDate={currentSnapshot.matchDate}
-          matchDetails={currentSnapshot.matchDetails}
-        />
-        
-        <PointsTable 
-          pointsTable={currentSnapshot.pointsTable}
-        />
+        {/* Responsive Layout: Points Table and Match History */}
+        <div className="flex flex-col lg:flex-row gap-5">
+          {/* Points Table - Main Content */}
+          <div className="lg:flex-1 order-2 lg:order-1">
+            <PointsTable 
+              pointsTable={currentSnapshot.pointsTable}
+            />
+          </div>
+          
+          {/* Match Timeline - Sidebar (right on desktop, top on mobile) */}
+          <div className="lg:w-80 order-1 lg:order-2">
+            {/* Visible on desktop - vertical scrollable list */}
+            <div className="hidden lg:block h-full">
+              <MatchesSidebar 
+                matches={pointsData.progression}
+                currentIndex={currentIndex}
+                onSelectMatch={handleSelectMatch}
+              />
+            </div>
+            
+            {/* Visible on mobile - horizontal scrollable list */}
+            <div className="lg:hidden mb-4">
+              <h3 className="text-white text-sm font-semibold mb-2">Match Timeline</h3>
+              <div className="flex space-x-2 overflow-x-auto pb-2 hide-scrollbar">
+                {pointsData.progression.map((match, index) => (
+                  <div key={match.matchNumber} className="w-40 flex-shrink-0">
+                    <div 
+                      className={`
+                        cursor-pointer p-2 rounded-lg border transition-colors
+                        ${currentIndex === index 
+                          ? 'bg-indigo-900/50 border-indigo-500' 
+                          : 'bg-gray-800/70 border-gray-700'
+                        }
+                      `}
+                      onClick={() => handleSelectMatch(index)}
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs text-gray-400">Match {match.matchNumber}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="w-5 h-5 relative">
+                          {getTeamInfo(match.matchDetails.team1.name) && (
+                            <Image 
+                              src={getTeamInfo(match.matchDetails.team1.name)?.teamLogoUrl || ''} 
+                              alt={match.matchDetails.team1.name}
+                              fill
+                              className="object-contain"
+                            />
+                          )}
+                        </div>
+                        <span className="text-xs font-bold text-gray-400">vs</span>
+                        <div className="w-5 h-5 relative">
+                          {getTeamInfo(match.matchDetails.team2.name) && (
+                            <Image 
+                              src={getTeamInfo(match.matchDetails.team2.name)?.teamLogoUrl || ''} 
+                              alt={match.matchDetails.team2.name}
+                              fill
+                              className="object-contain"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       
       <PlaybackControls
