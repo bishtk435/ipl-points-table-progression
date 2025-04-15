@@ -5,9 +5,11 @@ import { TeamStanding, ResultEntry } from '@/types/progress';
 
 interface PointsTableProps {
   pointsTable: TeamStanding[];
+  selectedTeamId: string | null;
+  onSelectTeam: (teamId: string) => void;
 }
 
-export const PointsTable = ({ pointsTable }: PointsTableProps) => {
+export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam }: PointsTableProps) => {
   // Get the last 5 results for a team
   const getLast5Results = (results: ResultEntry[]) => {
     return results.slice(-5).map(result => {
@@ -15,6 +17,10 @@ export const PointsTable = ({ pointsTable }: PointsTableProps) => {
       if (result.result === 'LOSS') return 'L';
       return 'NR';
     });
+  };
+
+  const handleTeamClick = (teamId: string) => {
+    onSelectTeam(teamId);
   };
 
   return (
@@ -57,6 +63,7 @@ export const PointsTable = ({ pointsTable }: PointsTableProps) => {
           <tbody className="divide-y divide-gray-700">
             {pointsTable.map((team, index) => {
               const isPlayoffTeam = team.rank <= 4;
+              const isSelected = selectedTeamId === team.teamId;
               const teamInfo = getTeamInfo(team.teamName);
               const last5 = getLast5Results(team.result_progression);
               
@@ -66,12 +73,19 @@ export const PointsTable = ({ pointsTable }: PointsTableProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className={isPlayoffTeam ? 'bg-indigo-900/30' : 'bg-gray-800 hover:bg-gray-700'}
+                  className={`
+                    cursor-pointer transition-colors duration-200
+                    ${isSelected ? 'bg-indigo-700/70 hover:bg-indigo-700/80' : 
+                      isPlayoffTeam ? 'bg-indigo-900/30 hover:bg-indigo-900/50' : 
+                      'bg-gray-800 hover:bg-gray-700'}
+                  `}
+                  onClick={() => handleTeamClick(team.teamId)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className={`
                       flex items-center justify-center w-8 h-8 rounded-full 
-                      ${isPlayoffTeam ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'}
+                      ${isSelected ? 'bg-indigo-500 text-white' :
+                        isPlayoffTeam ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'}
                       font-bold text-sm
                     `}>
                       {team.rank}
@@ -96,6 +110,11 @@ export const PointsTable = ({ pointsTable }: PointsTableProps) => {
                         {isPlayoffTeam && (
                           <div className="text-xs text-indigo-400">
                             Playoff Qualification
+                          </div>
+                        )}
+                        {isSelected && (
+                          <div className="text-xs text-purple-300">
+                            Selected for Analysis
                           </div>
                         )}
                       </div>
