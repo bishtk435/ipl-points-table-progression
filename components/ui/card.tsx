@@ -15,7 +15,7 @@ const Card = React.forwardRef<
     style={{
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'hsl(var(--border))'
+      borderColor: 'grey'
     }}
     {...props}
   />

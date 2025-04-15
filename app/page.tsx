@@ -6,6 +6,7 @@ import { TeamFilterChips } from "@/components/TeamFilterChips";
 import { SeasonFilters } from "@/components/SeasonFilters";
 import { seasons } from "@/data/seasons";
 import { IPL_TEAMS } from "@/data/teams";
+import { BiTrophy } from "react-icons/bi";
 
 export default function HomePage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -128,14 +129,15 @@ export default function HomePage() {
               IPL Points Table Progression
             </h1>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Explore the journey of IPL seasons through stats, standings, and progressions.
+              Explore the journey of IPL seasons through points table progressions.
               Discover how teams performed throughout each tournament.
             </p>
           </div>
           
           {/* Most Successful Teams Summary */}
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Most Successful Teams</h2>
+          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-8">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4"><span className="flex items-center gap-2">Most Successful Teams <BiTrophy className="h-6 w-6 text-yellow-500 shrink-0" /></span>
+            </h2>
             <TeamFilterChips 
               teams={championshipCounts}
               activeTeamId={filterTeam}
@@ -143,7 +145,7 @@ export default function HomePage() {
             />
           </div>
           
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <SeasonFilters
               sortOrder={sortOrder}
               onSortChange={setSortOrder}
@@ -162,7 +164,7 @@ export default function HomePage() {
                 {filteredAndSortedSeasons.map((season) => (
                   <div 
                     key={season.season_year}
-                    className="hover:translate-x-1 transition-all duration-300 ease-in-out"
+                    className="transition-all duration-300 ease-in-out"
                   >
                     <SeasonCard
                       year={season.season_year}
@@ -184,7 +186,7 @@ export default function HomePage() {
                     setFilterTeam(null);
                     setSearchTerm("");
                   }}
-                  className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                  className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 rounded-lg transition-all duration-200"
                 >
                   Reset filters
                 </button>

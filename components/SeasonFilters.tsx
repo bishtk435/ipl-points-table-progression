@@ -35,9 +35,9 @@ export function SeasonFilters({
   return (
     <div className="flex flex-col mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">IPL Seasons</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">IPL Seasons</h2>
         
-        <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-0">
+        <p className="text-gray-500 dark:text-gray-400 mt-2 sm:mt-0">
           {seasonCount} seasons ({minYear} - {maxYear})
         </p>
       </div>
@@ -49,7 +49,7 @@ export function SeasonFilters({
             id="sort-order"
             value={sortOrder}
             onChange={(e) => onSortChange(e.target.value as 'asc' | 'desc')}
-            className="px-2 py-1 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md flex-grow"
+            className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg flex-grow focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-700 focus:outline-none transition-all duration-200"
           >
             <option value="desc">Newest first</option>
             <option value="asc">Oldest first</option>
@@ -62,7 +62,7 @@ export function SeasonFilters({
             id="champion-filter"
             value={championFilter || "all"}
             onChange={(e) => onChampionFilterChange(e.target.value === "all" ? null : e.target.value)}
-            className="px-2 py-1 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md flex-grow"
+            className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg flex-grow focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-700 focus:outline-none transition-all duration-200"
           >
             <option value="all">All Champions</option>
             {championTeams.map((team) => (
@@ -82,7 +82,7 @@ export function SeasonFilters({
             placeholder="Search seasons..."
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+            className="w-full pl-10 pr-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-700 focus:outline-none transition-all duration-200"
           />
         </div>
       </div>

@@ -26,49 +26,49 @@ export function SeasonCard({
   formatDate
 }: SeasonCardProps) {
   return (
-    <Card className="overflow-hidden bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200">
+    <Card className="overflow-hidden bg-white dark:bg-gray-800 border-0 shadow-md hover:shadow-xl group transition-all duration-300 ease-out rounded-3xl">
       <CardContent className="p-0">
-        <div className="p-4">
+        <div className="p-6 group-hover:scale-[1.02] transform transition-transform duration-300 ease-out">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-start sm:items-center gap-3">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-bold text-lg shrink-0">
+            <div className="flex items-start sm:items-center gap-5">
+              <div className="flex items-center justify-center w-20 h-20 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 dark:from-violet-600 dark:to-indigo-800 text-white font-bold text-2xl shrink-0 shadow-md backdrop-blur-sm border border-violet-400/30 dark:border-indigo-500/30 transition-all duration-300 ease-out group-hover:from-indigo-500 group-hover:to-violet-600 dark:group-hover:from-indigo-600 dark:group-hover:to-violet-800">
                 {year}
               </div>
               
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">IPL {year}</h3>
-                <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 gap-x-4 gap-y-1 mt-1">
-                  <span className="flex items-center gap-1">
-                    <FiCalendar className="w-3 h-3 shrink-0" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">IPL {year}</h3>
+                <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 gap-x-5 gap-y-2">
+                  <span className="flex items-center gap-2">
+                    <FiCalendar className="w-4 h-4 shrink-0 text-gray-400 dark:text-gray-500" />
                     <span className="truncate">{formatDate(startDate)} - {formatDate(endDate)}</span>
                   </span>
-                  <span className="flex items-center gap-1">
-                    <FiUsers className="w-3 h-3 shrink-0" />
+                  <span className="flex items-center gap-2">
+                    <FiUsers className="w-4 h-4 shrink-0 text-gray-400 dark:text-gray-500" />
                     <span>{numberOfTeams} Teams</span>
                   </span>
-                  <span className="hidden sm:flex items-center gap-1">
-                    <FiAward className="w-3 h-3 shrink-0" />
+                  <span className="hidden sm:flex items-center gap-2">
+                    <FiAward className="w-4 h-4 shrink-0 text-gray-400 dark:text-gray-500" />
                     <span>{numberOfMatches} Matches</span>
                   </span>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center justify-between sm:justify-end gap-3 mt-2 sm:mt-0">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1">
-                  <BiTrophy className="h-4 w-4 text-yellow-500 shrink-0" />
-                  <span className="text-sm font-medium whitespace-nowrap">{championTeam?.shortName || championTeam?.name}</span>
+            <div className="flex items-center justify-between sm:justify-end gap-5 mt-2 sm:mt-0">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <BiTrophy className="h-6 w-6 text-yellow-500 shrink-0" />
+                  <span className="text-sm font-semibold whitespace-nowrap text-gray-700 dark:text-gray-300">{championTeam?.shortName || championTeam?.name}</span>
                 </div>
                 
                 {championTeam?.teamLogoUrl && (
-                  <div className="w-8 h-8 relative shrink-0">
+                  <div className="w-12 h-12 relative shrink-0 ml-1">
                     <Image
                       src={championTeam.teamLogoUrl}
                       alt={championTeam.name}
-                      width={32}
-                      height={32}
-                      className="object-contain"
+                      width={48}
+                      height={48}
+                      className="object-contain drop-shadow-md"
                     />
                   </div>
                 )}
@@ -78,9 +78,9 @@ export function SeasonCard({
                 <Button 
                   variant="outline" 
                   size="sm"
-                  className="text-xs whitespace-nowrap flex items-center gap-1 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900 dark:hover:text-blue-200 transform hover:translate-x-1 transition-all"
+                  className="ml-2 text-xs whitespace-nowrap flex items-center gap-2 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900 dark:hover:text-blue-200 transform hover:translate-x-1 transition-all rounded-lg border-gray-200 dark:border-gray-700 shadow-sm px-4 py-2.5 font-medium"
                 >
-                  <FiTrendingUp className="w-3 h-3" />
+                  <FiTrendingUp className="w-4 h-4" />
                   <span className="hidden md:inline">View</span> Progression
                 </Button>
               </Link>
