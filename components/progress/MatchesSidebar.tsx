@@ -42,11 +42,6 @@ export const MatchesSidebar = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Title */}
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-white text-sm font-semibold">Match Timeline</h3>
-        <span className="text-gray-400 text-xs">{matches.length} Matches</span>
-      </div>
       
       {/* On Mobile - Hint text */}
       <div className="md:hidden flex items-center justify-center text-gray-400 text-xs mb-2">

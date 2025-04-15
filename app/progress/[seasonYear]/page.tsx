@@ -159,9 +159,14 @@ export default function PointsTableProgression() {
   // Render Match Timeline Horizontal Cards (when team is selected)
   const renderMatchTimelineHorizontal = () => (
     <div className="w-full bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-700">
-      <h3 className="text-white text-sm font-semibold p-3 bg-gray-900 border-b border-gray-700">
-        Match Timeline
-      </h3>
+      <div className="p-3 bg-gray-900 border-b border-gray-700 flex items-center justify-between">
+        <h3 className="text-white text-sm font-semibold">
+          Match Timeline
+        </h3>
+        <span className="text-gray-400 text-xs">
+          {pointsData.progression.length} matches
+        </span>
+      </div>
       <div className="p-3 overflow-x-auto hide-scrollbar" ref={timelineScrollRef}>
         <div className="flex space-x-3 pb-1">
           {pointsData.progression.map((match, index) => (
@@ -247,9 +252,14 @@ export default function PointsTableProgression() {
   // Render Match Timeline for regular sidebar view (when no team is selected)
   const renderMatchTimelineVertical = () => (
     <div className="w-full bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-700">
-      <h3 className="text-white text-sm font-semibold p-3 bg-gray-900 border-b border-gray-700">
-        Match Timeline
-      </h3>
+      <div className="p-3 bg-gray-900 border-b border-gray-700 flex items-center justify-between">
+        <h3 className="text-white text-sm font-semibold">
+          Match Timeline
+        </h3>
+        <span className="text-gray-400 text-xs">
+          {pointsData.progression.length} matches
+        </span>
+      </div>
       <div className="h-full">
         <MatchesSidebar 
           matches={pointsData.progression}
