@@ -15,6 +15,7 @@ import { PointsProgression } from '@/types/progress';
 import Image from 'next/image';
 import { getTeamInfo } from '@/data/teams';
 import { seasons } from '@/data/seasons';
+import { FaTrophy } from 'react-icons/fa';
 
 export default function PointsTableProgression() {
   const params = useParams<{ seasonYear: string }>();
@@ -377,6 +378,7 @@ export default function PointsTableProgression() {
                   progression={pointsData.progression}
                   teamId={selectedTeamId}
                   currentIndex={currentIndex}
+                  seasonYear={seasonYear}
                 />
               </div>
             </div>

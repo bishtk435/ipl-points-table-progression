@@ -4,15 +4,28 @@ import { PointsTableSnapshot } from '@/types/progress';
 import { motion } from 'framer-motion';
 import { getTeamInfo } from '@/data/teams';
 import Image from 'next/image';
+import { FaTrophy } from 'react-icons/fa';
+import { seasons } from '@/data/seasons';
 
 interface TeamRankGraphProps {
   progression: PointsTableSnapshot[];
   teamId: string;
   currentIndex: number;
+  seasonYear?: string;
 }
 
-export const TeamRankGraph = ({ progression, teamId, currentIndex }: TeamRankGraphProps) => {
+export const TeamRankGraph = ({ 
+  progression, 
+  teamId, 
+  currentIndex,
+  seasonYear 
+}: TeamRankGraphProps) => {
   const [graphData, setGraphData] = useState<Array<{ matchNumber: number; rank: number; date: string }>>([]);
+  
+  // Get champion team for this season if seasonYear is provided
+  const seasonData = seasonYear ? seasons.find(season => season.season_year.toString() === seasonYear) : undefined;
+  const championTeamId = seasonData?.champion_team || '';
+  const isChampion = teamId === championTeamId;
   
   useEffect(() => {
     // Generate data for the graph
@@ -62,8 +75,11 @@ export const TeamRankGraph = ({ progression, teamId, currentIndex }: TeamRankGra
               </div>
             )}
             <div>
-              <h3 className="text-xl font-semibold text-white">
-                {teamInfo?.name || 'Team'} 
+              <h3 className="text-xl font-semibold text-white flex items-center">
+                {teamInfo?.name || 'Team'}
+                {isChampion && (
+                  <FaTrophy className="ml-2 text-amber-400" size={16} title="Champion Team" />
+                )}
               </h3>
               <div className="text-sm text-gray-300">
                 Rank Progression Analysis
