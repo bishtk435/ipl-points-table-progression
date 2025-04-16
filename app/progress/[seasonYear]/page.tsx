@@ -9,11 +9,10 @@ import {
   LoadingSpinner, 
   ErrorMessage,
   MatchesSidebar,
-  TeamRankGraph
+  TeamRankGraph,
+  MatchCard
 } from '@/components/progress';
 import { PointsProgression } from '@/types/progress';
-import Image from 'next/image';
-import { getTeamInfo } from '@/data/teams';
 import { seasons } from '@/data/seasons';
 
 export default function PointsTableProgression() {
@@ -61,7 +60,7 @@ export default function PointsTableProgression() {
 
   // Auto-scroll the match timeline to keep current match in view
   useEffect(() => {
-    if (selectedTeamId && timelineScrollRef.current) {
+    if (timelineScrollRef.current) {
       const scrollContainer = timelineScrollRef.current;
       const cards = scrollContainer.querySelectorAll('.match-card');
       
@@ -83,7 +82,7 @@ export default function PointsTableProgression() {
         }
       }
     }
-  }, [currentIndex, selectedTeamId]);
+  }, [currentIndex]);
 
   useEffect(() => {
     let timerId: NodeJS.Timeout | null = null;
@@ -171,84 +170,32 @@ export default function PointsTableProgression() {
         </span>
       </div>
       <div className="p-3 overflow-x-auto hide-scrollbar" ref={timelineScrollRef}>
-        <div className="flex space-x-3 pb-1">
+        <div className="flex space-x-2 pb-1">
           {pointsData.progression.map((match, index) => (
             <div
               key={match.matchNumber}
               className="flex-shrink-0 match-card"
-              style={{ width: "150px" }}
+              style={{ width: "200px" }}
             >
-              <div 
-                className={`
-                  h-full rounded-lg border cursor-pointer transition-colors
-                  ${currentIndex === index 
-                    ? 'bg-indigo-900/50 border-indigo-500' 
-                    : 'bg-gray-800/70 border-gray-700 hover:bg-gray-700/50'
-                  }
-                `}
+              <MatchCard
+                matchNumber={match.matchNumber}
+                matchDate={match.matchDate}
+                matchDetails={match.matchDetails}
+                isActive={currentIndex === index}
                 onClick={() => handleSelectMatch(index)}
-              >
-                <div className="p-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-gray-400 bg-gray-800/80 px-2 py-1 rounded">
-                      {match.matchNumber}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {new Date(match.matchDate).toLocaleDateString('en-US', { 
-                        month: 'short', day: 'numeric' 
-                      })}
-                    </span>
-                  </div>
-                  
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center">
-                      <div className="w-7 h-7 relative">
-                        {getTeamInfo(match.matchDetails.team1.name) && (
-                          <Image 
-                            src={getTeamInfo(match.matchDetails.team1.name)?.teamLogoUrl || ''} 
-                            alt={match.matchDetails.team1.name}
-                            fill
-                            className="object-contain"
-                          />
-                        )}
-                      </div>
-                      <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {getTeamInfo(match.matchDetails.team1.name)?.shortName || match.matchDetails.team1.name.split(' ').pop()}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-center">
-                      <span className="text-xs text-gray-500">vs</span>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <div className="w-7 h-7 relative">
-                        {getTeamInfo(match.matchDetails.team2.name) && (
-                          <Image 
-                            src={getTeamInfo(match.matchDetails.team2.name)?.teamLogoUrl || ''} 
-                            alt={match.matchDetails.team2.name}
-                            fill
-                            className="object-contain"
-                          />
-                        )}
-                      </div>
-                      <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {getTeamInfo(match.matchDetails.team2.name)?.shortName || match.matchDetails.team2.name.split(' ').pop()}
-                      </span>
-                    </div>
-        </div>
-          
-                  {match.matchDetails.result && (
-                    <div className="text-xs text-center w-full bg-gray-800/40 rounded-md p-1 mt-2 text-gray-400 truncate">
-                      {match.matchDetails.result}
-                    </div>
-                  )}
-                </div>
-              </div>
+                seasonYear={seasonYear}
+              />
             </div>
           ))}
         </div>
       </div>
+    </div>
+  );
+
+//   // Render mobile timeline horizontally scrollable
+  const renderMobileTimeline = () => (
+    <div className="lg:hidden mb-4">
+      {renderMatchTimelineHorizontal()}
     </div>
   );
 
@@ -264,61 +211,11 @@ export default function PointsTableProgression() {
         </span>
       </div>
       <div className="h-full">
-              <MatchesSidebar 
-                matches={pointsData.progression}
-                currentIndex={currentIndex}
-                onSelectMatch={handleSelectMatch}
-              />
-            </div>
-    </div>
-  );
-            
-  // Render mobile timeline horizontally scrollable
-  const renderMobileTimeline = () => (
-            <div className="lg:hidden mb-4">
-              <h3 className="text-white text-sm font-semibold mb-2">Match Timeline</h3>
-              <div className="flex space-x-2 overflow-x-auto pb-2 hide-scrollbar">
-                {pointsData.progression.map((match, index) => (
-                  <div key={match.matchNumber} className="w-40 flex-shrink-0">
-                    <div 
-                      className={`
-                        cursor-pointer p-2 rounded-lg border transition-colors
-                        ${currentIndex === index 
-                          ? 'bg-indigo-900/50 border-indigo-500' 
-                          : 'bg-gray-800/70 border-gray-700'
-                        }
-                      `}
-                      onClick={() => handleSelectMatch(index)}
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-gray-400">Match {match.matchNumber}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="w-5 h-5 relative">
-                          {getTeamInfo(match.matchDetails.team1.name) && (
-                            <Image 
-                              src={getTeamInfo(match.matchDetails.team1.name)?.teamLogoUrl || ''} 
-                              alt={match.matchDetails.team1.name}
-                              fill
-                              className="object-contain"
-                            />
-                          )}
-                        </div>
-                        <span className="text-xs font-bold text-gray-400">vs</span>
-                        <div className="w-5 h-5 relative">
-                          {getTeamInfo(match.matchDetails.team2.name) && (
-                            <Image 
-                              src={getTeamInfo(match.matchDetails.team2.name)?.teamLogoUrl || ''} 
-                              alt={match.matchDetails.team2.name}
-                              fill
-                              className="object-contain"
-                            />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        <MatchesSidebar 
+          matches={pointsData.progression}
+          currentIndex={currentIndex}
+          onSelectMatch={handleSelectMatch}
+        />
       </div>
     </div>
   );
@@ -359,9 +256,9 @@ export default function PointsTableProgression() {
             </div>
             
             {/* Points Table and Graph side by side */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
               {/* Points Table */}
-              <div className="order-2 lg:order-1">
+              <div className="order-2 lg:order-1 lg:col-span-7">
                 <PointsTable 
                   pointsTable={currentSnapshot.pointsTable}
                   selectedTeamId={selectedTeamId}
@@ -372,7 +269,7 @@ export default function PointsTableProgression() {
               </div>
               
               {/* Team Rank Graph */}
-              <div className="order-1 lg:order-2">
+              <div className="order-1 lg:order-2 lg:col-span-5">
                 <TeamRankGraph 
                   progression={pointsData.progression}
                   teamId={selectedTeamId}
