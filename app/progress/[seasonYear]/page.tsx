@@ -14,6 +14,7 @@ import {
 import { PointsProgression } from '@/types/progress';
 import Image from 'next/image';
 import { getTeamInfo } from '@/data/teams';
+import { seasons } from '@/data/seasons';
 
 export default function PointsTableProgression() {
   const params = useParams<{ seasonYear: string }>();
@@ -155,6 +156,8 @@ export default function PointsTableProgression() {
 
   const currentSnapshot = pointsData.progression[currentIndex];
   const totalMatches = pointsData.progression.length;
+  const isLastMatch = currentIndex === totalMatches - 1;
+  const seasonData = seasons.find(season => season.season_year.toString() === seasonYear);
 
   // Render Match Timeline Horizontal Cards (when team is selected)
   const renderMatchTimelineHorizontal = () => (
@@ -210,7 +213,7 @@ export default function PointsTableProgression() {
                         )}
                       </div>
                       <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {match.matchDetails.team1.name.split(' ').pop()}
+                        {getTeamInfo(match.matchDetails.team1.name)?.shortName || match.matchDetails.team1.name.split(' ').pop()}
                       </span>
                     </div>
                     
@@ -230,7 +233,7 @@ export default function PointsTableProgression() {
                         )}
                       </div>
                       <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {match.matchDetails.team2.name.split(' ').pop()}
+                        {getTeamInfo(match.matchDetails.team2.name)?.shortName || match.matchDetails.team2.name.split(' ').pop()}
                       </span>
                     </div>
         </div>
@@ -325,8 +328,20 @@ export default function PointsTableProgression() {
       <div className="max-w-7xl mx-auto pb-24">
         <Header seasonYear={seasonYear} />
         
+        {/* Qualification Banner - Show when at the last match */}
+        {isLastMatch && (
+          <div className="bg-emerald-900/30 p-3 rounded-lg border border-emerald-800 text-sm mb-5">
+            <p className="text-emerald-300 flex items-center">
+              <span className="font-semibold mr-2">🏆 Final Standings:</span>
+              {seasonData?.isPlayOffFormat 
+                ? "Teams ranked 1-2 have qualified for Qualifier 1. Teams ranked 3-4 have qualified for the Eliminator." 
+                : "Teams ranked 1-4 have qualified for the Semi-finals."}
+            </p>
+          </div>
+        )}
+        
         {/* Pro Tip banner moved to the top */}
-        {!selectedTeamId && (
+        {!selectedTeamId && !isLastMatch && (
           <div className="bg-indigo-900/30 p-3 rounded-lg border border-indigo-800 text-sm mb-5">
             <p className="text-indigo-300">
               <span className="font-semibold">Pro Tip:</span> Click on any team in the points table to view its rank progression graph!
@@ -352,6 +367,7 @@ export default function PointsTableProgression() {
                   selectedTeamId={selectedTeamId}
                   onSelectTeam={handleSelectTeam}
                   seasonYear={seasonYear}
+                  isLastMatch={isLastMatch}
                 />
               </div>
               
@@ -361,6 +377,7 @@ export default function PointsTableProgression() {
                   progression={pointsData.progression}
                   teamId={selectedTeamId}
                   currentIndex={currentIndex}
+                  seasonYear={seasonYear}
                 />
               </div>
             </div>
@@ -375,6 +392,7 @@ export default function PointsTableProgression() {
                 selectedTeamId={selectedTeamId}
                 onSelectTeam={handleSelectTeam}
                 seasonYear={seasonYear}
+                isLastMatch={isLastMatch}
               />
             </div>
             
