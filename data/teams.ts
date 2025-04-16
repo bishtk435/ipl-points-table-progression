@@ -371,3 +371,12 @@ export function getTeamInfo(name: string): TeamInfo | undefined {
     const canonicalName = TEAM_ALIASES[name] || name;
     return TEAM_BY_NAME[canonicalName];
 } 
+
+/**
+ * Get team info by team name (handles aliases)
+ * @param name - The team name (can be an alias)
+ * @returns The team info or undefined if not found
+ */
+export function getTeamInfoById(id: string): TeamInfo | undefined {
+    return IPL_TEAMS.find(team => team.id === id);
+}

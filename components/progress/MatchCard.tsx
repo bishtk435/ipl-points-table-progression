@@ -54,7 +54,7 @@ export const MatchCard = ({
           {getTeamInfo(matchDetails.team1.name) && (
             <div className="flex items-center">
               <span className="text-xs font-medium text-white max-w-20 truncate text-right mr-1">
-                {matchDetails.team1.name}
+                {getTeamInfo(matchDetails.team1.name)?.shortName || matchDetails.team1.name.split(' ').pop()}
               </span>
               <div className="w-6 h-6 relative">
                 <Image 
@@ -84,7 +84,7 @@ export const MatchCard = ({
                 />
               </div>
               <span className="text-xs font-medium text-white max-w-20 truncate text-left ml-1">
-                {matchDetails.team2.name}
+                {getTeamInfo(matchDetails.team2.name)?.shortName || matchDetails.team2.name.split(' ').pop()}
               </span>
             </div>
           )}

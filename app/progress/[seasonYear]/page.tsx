@@ -15,7 +15,6 @@ import { PointsProgression } from '@/types/progress';
 import Image from 'next/image';
 import { getTeamInfo } from '@/data/teams';
 import { seasons } from '@/data/seasons';
-import { FaTrophy } from 'react-icons/fa';
 
 export default function PointsTableProgression() {
   const params = useParams<{ seasonYear: string }>();
@@ -214,7 +213,7 @@ export default function PointsTableProgression() {
                         )}
                       </div>
                       <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {match.matchDetails.team1.name.split(' ').pop()}
+                        {getTeamInfo(match.matchDetails.team1.name)?.shortName || match.matchDetails.team1.name.split(' ').pop()}
                       </span>
                     </div>
                     
@@ -234,7 +233,7 @@ export default function PointsTableProgression() {
                         )}
                       </div>
                       <span className="text-xs font-medium text-gray-300 ml-2 truncate max-w-[85px]">
-                        {match.matchDetails.team2.name.split(' ').pop()}
+                        {getTeamInfo(match.matchDetails.team2.name)?.shortName || match.matchDetails.team2.name.split(' ').pop()}
                       </span>
                     </div>
         </div>
