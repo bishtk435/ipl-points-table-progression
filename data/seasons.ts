@@ -12,6 +12,7 @@ export const seasons = [
         emerging_player: "shreevats-goswami-302579",
         most_valuable_player: "shane-watson-8180",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: false,
     },
     {
         season_year: 2009,
@@ -26,6 +27,7 @@ export const seasons = [
         emerging_player: "rohit-sharma-34102",
         most_valuable_player: "adam-gilchrist-5390",
         fair_play_award_team: ['punjab-kings-335973'],
+        isPlayOffFormat: false,
     },
     {
         season_year: 2010,
@@ -40,6 +42,7 @@ export const seasons = [
         emerging_player: "saurabh-tiwary-35390",
         most_valuable_player: "sachin-tendulkar-35320",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: false,
     },
     {
         season_year: 2011,
@@ -54,6 +57,7 @@ export const seasons = [
         emerging_player: "iqbal-abdulla-277237",
         most_valuable_player: "chris-gayle-51880",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2012,
@@ -68,6 +72,7 @@ export const seasons = [
         emerging_player: "mandeep-singh-398506",
         most_valuable_player: "sunil-narine-230558",
         fair_play_award_team: ['rajasthan-royals-335977'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2013,
@@ -82,6 +87,7 @@ export const seasons = [
         emerging_player: "sanju-samson-425943",
         most_valuable_player: "shane-watson-8180",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2014,
@@ -96,6 +102,7 @@ export const seasons = [
         emerging_player: "axar-patel-554691",
         most_valuable_player: "glenn-maxwell-325026",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2015,
@@ -110,6 +117,7 @@ export const seasons = [
         emerging_player: "shreyas-iyer-642519",
         most_valuable_player: "andre-russell-276298",
         fair_play_award_team: ['chennai-super-kings-335974'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2016,
@@ -124,6 +132,7 @@ export const seasons = [
         emerging_player: "mustafizur-rahman-330902",
         most_valuable_player: "virat-kohli-253802",
         fair_play_award_team: ['sunrisers-hyderabad-628333'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2017,
@@ -138,6 +147,7 @@ export const seasons = [
         emerging_player: "basil-thampi-732291",
         most_valuable_player: "ben-stokes-311158",
         fair_play_award_team: ['gujarat-lions-968725'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2018,
@@ -152,6 +162,7 @@ export const seasons = [
         emerging_player: "rishabh-pant-931581",
         most_valuable_player: "sunil-narine-230558",
         fair_play_award_team: ['mumbai-indians-335978'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2019,
@@ -166,6 +177,7 @@ export const seasons = [
         emerging_player: "shubman-gill-1070173",
         most_valuable_player: "andre-russell-276298",
         fair_play_award_team: ['sunrisers-hyderabad-628333'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2020,
@@ -180,6 +192,7 @@ export const seasons = [
         emerging_player: "devdutt-padikkal-1119026",
         most_valuable_player: "jofra-archer-669855",
         fair_play_award_team: ['mumbai-indians-335978'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2021,
@@ -194,6 +207,7 @@ export const seasons = [
         emerging_player:"ruturaj-gaikwad-1060380",
         most_valuable_player: "harshal-patel-390481",
         fair_play_award_team: ['rajasthan-royals-335977'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2022,
@@ -208,6 +222,7 @@ export const seasons = [
         emerging_player: "umran-malik-1246528",
         most_valuable_player: "jos-buttler-308967",
         fair_play_award_team: ['rajasthan-royals-335977', "gujarat-titans-1298769"],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2023,
@@ -222,6 +237,7 @@ export const seasons = [
         emerging_player: "yashasvi-jaiswal-1151278",
         most_valuable_player: "shubman-gill-1070173",
         fair_play_award_team: ['delhi-capitals-335975'],
+        isPlayOffFormat: true,
     },
     {
         season_year: 2024,
@@ -236,5 +252,6 @@ export const seasons = [
         emerging_player: 'nitish-kumar-reddy-1175496',
         most_valuable_player: "sunil-narine-230558",
         fair_play_award_team: ['sunrisers-hyderabad-628333'],
+        isPlayOffFormat: true,
     }
 ];

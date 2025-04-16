@@ -10,12 +10,20 @@ interface PointsTableProps {
   selectedTeamId: string | null;
   onSelectTeam: (teamId: string) => void;
   seasonYear: string;
+  isLastMatch?: boolean;
 }
 
-export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam, seasonYear }: PointsTableProps) => {
+export const PointsTable = ({ 
+  pointsTable, 
+  selectedTeamId, 
+  onSelectTeam, 
+  seasonYear,
+  isLastMatch = false 
+}: PointsTableProps) => {
   // Get champion team for this season
   const seasonData = seasons.find(season => season.season_year.toString() === seasonYear);
   const championTeamId = seasonData?.champion_team || '';
+  const isPlayoffFormat = seasonData?.isPlayOffFormat || false;
   
   // Get the last 5 results for a team
   const getLast5Results = (results: ResultEntry[]) => {
@@ -24,6 +32,19 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam, seasonY
       if (result.result === 'LOSS') return 'L';
       return 'NR';
     });
+  };
+
+  // Get qualification message based on team rank and playoff format
+  const getQualificationMessage = (rank: number) => {
+    if (!isLastMatch) return null;
+    
+    if (isPlayoffFormat) {
+      if (rank === 1 || rank === 2) return "Qualified for Qualifier 1";
+      if (rank === 3 || rank === 4) return "Qualified for Eliminator";
+    } else {
+      if (rank <= 4) return "Qualified for Semi-finals";
+    }
+    return null;
   };
 
   const handleTeamClick = (teamId: string) => {
@@ -74,6 +95,7 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam, seasonY
               const isChampion = team.teamId === championTeamId;
               const teamInfo = getTeamInfo(team.teamName);
               const last5 = getLast5Results(team.result_progression);
+              const qualificationMessage = getQualificationMessage(team.rank);
               
               return (
                 <motion.tr 
@@ -114,14 +136,14 @@ export const PointsTable = ({ pointsTable, selectedTeamId, onSelectTeam, seasonY
                       )}
                       <div className="flex flex-col">
                         <div className="flex items-center text-sm font-medium text-white">
-                          {team.teamName}
+                          {isLastMatch && isPlayoffTeam ? `${team.teamName} (Q)` : team.teamName}
                           {isChampion && (
                             <FaTrophy className="ml-2 text-amber-400" size={14} title="Champion Team" />
                           )}
                         </div>
-                        {isPlayoffTeam && (
-                          <div className="text-xs text-indigo-400">
-                            Playoff Qualification
+                        {qualificationMessage && (
+                          <div className="text-xs text-emerald-400 font-medium">
+                            {qualificationMessage}
                           </div>
                         )}
                       </div>
