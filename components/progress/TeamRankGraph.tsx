@@ -14,46 +14,111 @@ interface TeamRankGraphProps {
   seasonYear?: string;
 }
 
-export const TeamRankGraph = ({ 
-  progression, 
-  teamId, 
-  currentIndex,
-  seasonYear 
-}: TeamRankGraphProps) => {
-  const [graphData, setGraphData] = useState<Array<{ matchNumber: number; rank: number; date: string }>>([]);
+interface GraphDataPoint {
+  matchNumber: number;
+  rank: number;
+  date: string;
+  dotColor: string;
+}
+
+interface DotProps {
+  cx?: number;
+  cy?: number;
+  payload?: GraphDataPoint;
+  [key: string]: unknown;
+}
+
+// Define a custom dot component
+const CustomDot = (props: DotProps) => {
+  const { cx, cy, payload } = props;
+  if (!cx || !cy || !payload) return null;
   
+  return (
+    <circle 
+      cx={cx} 
+      cy={cy} 
+      r={4} 
+      fill={payload.dotColor} 
+      stroke="#111" 
+      strokeWidth={1}
+    />
+  );
+};
+
+// Define a custom active dot component
+const CustomActiveDot = (props: DotProps) => {
+  const { cx, cy, payload } = props;
+  if (!cx || !cy || !payload) return null;
+  
+  return (
+    <circle 
+      cx={cx} 
+      cy={cy} 
+      r={8} 
+      fill={payload.dotColor} 
+      stroke="#fff" 
+      strokeWidth={2}
+    />
+  );
+};
+
+export const TeamRankGraph = ({
+  progression,
+  teamId,
+  currentIndex,
+  seasonYear
+}: TeamRankGraphProps) => {
+  const [graphData, setGraphData] = useState<Array<GraphDataPoint>>([]);
+
   // Get champion team for this season if seasonYear is provided
   const seasonData = seasonYear ? seasons.find(season => season.season_year.toString() === seasonYear) : undefined;
   const championTeamId = seasonData?.champion_team || '';
   const isChampion = teamId === championTeamId;
-  
+
   useEffect(() => {
     // Generate data for the graph
     const data = progression.map(snapshot => {
       const teamStanding = snapshot.pointsTable.find(team => team.teamId === teamId);
+      const isCurrentTeamMatch = snapshot.matchDetails.team1.id === teamId || snapshot.matchDetails.team2.id === teamId;
+
+      // Some Default color
+      let dotColor = '#8884d8';
+
+      if (isCurrentTeamMatch) {
+
+        if (snapshot.matchDetails.result === "No Result") {
+          dotColor = '#6B7280'; // A muted gray that works well in dark theme
+        } else {
+          // Use proper shades that work well in dark theme
+          dotColor = snapshot.matchDetails.winningTeamId === teamId 
+            ? '#10B981' // A vibrant but not too bright green
+            : '#EF4444'; // A rich red that's visible but not harsh
+        }
+      }
       return {
         matchNumber: snapshot.matchNumber,
         rank: teamStanding?.rank || 0,
-        date: snapshot.matchDate
+        date: snapshot.matchDate,
+        dotColor: dotColor
       };
     }).filter(item => item.rank > 0);
-    
+
     setGraphData(data);
   }, [progression, teamId]);
-  
+
   const teamInfo = getTeamInfo(progression[0]?.pointsTable.find(team => team.teamId === teamId)?.teamName || '');
-  
+
   // Only display up to current index
   const visibleData = graphData.slice(0, currentIndex + 1);
-  
+
   // Calculate domain for YAxis (always making 1 the min rank)
   const maxRank = Math.max(...graphData.map(d => d.rank), 10);
-  
+
   // Get current rank and trend
   const currentRank = visibleData.length > 0 ? visibleData[visibleData.length - 1].rank : 0;
   const previousRank = visibleData.length > 1 ? visibleData[visibleData.length - 2].rank : currentRank;
   const rankTrend = currentRank < previousRank ? 'up' : (currentRank > previousRank ? 'down' : 'same');
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -86,7 +151,7 @@ export const TeamRankGraph = ({
               </div>
             </div>
           </div>
-          
+
           <div className="text-right">
             <div className="text-sm text-gray-400">Current Rank</div>
             <div className="flex items-center">
@@ -104,7 +169,7 @@ export const TeamRankGraph = ({
           </div>
         </div>
       </div>
-      
+
       <div className="p-4">
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
@@ -113,44 +178,44 @@ export const TeamRankGraph = ({
               margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#555" />
-              <XAxis 
-                dataKey="matchNumber" 
+              <XAxis
+                dataKey="matchNumber"
                 label={{ value: 'Match Number', position: 'insideBottomRight', offset: -5, fill: '#aaa' }}
                 stroke="#aaa"
                 tick={{ fill: '#aaa' }}
               />
-              <YAxis 
-                reversed 
+              <YAxis
+                reversed
                 domain={[1, maxRank]}
                 label={{ value: 'Rank', angle: -90, position: 'insideLeft', fill: '#aaa', dy: 50 }}
                 ticks={Array.from({ length: maxRank }, (_, i) => i + 1)}
                 stroke="#aaa"
                 tick={{ fill: '#aaa' }}
               />
-              <Tooltip 
+              <Tooltip
                 formatter={(value: number) => [`Rank: ${value}`, '']}
                 labelFormatter={(label) => `Match ${label}`}
                 contentStyle={{ backgroundColor: '#333', border: '1px solid #555' }}
                 itemStyle={{ color: '#fff' }}
               />
-              <ReferenceLine 
-                y={4.5} 
-                stroke="#8883cc" 
-                strokeDasharray="3 3" 
-                label={{ 
-                  value: 'Playoff Qualification', 
-                  position: 'right', 
+              <ReferenceLine
+                y={4.5}
+                stroke="#8883cc"
+                strokeDasharray="3 3"
+                label={{
+                  value: 'Playoff Qualification',
+                  position: 'right',
                   fill: '#8883cc',
                   fontSize: 12
-                }} 
+                }}
               />
-              <Line 
-                type="monotone" 
-                dataKey="rank" 
-                stroke="#8884d8" 
+              <Line
+                type="monotone"
+                dataKey="rank"
+                stroke="#8884d8"
                 strokeWidth={2}
-                dot={{ fill: '#8884d8', r: 4, strokeWidth: 1, stroke: '#111' }}
-                activeDot={{ r: 8, fill: '#fff', stroke: '#8884d8', strokeWidth: 2 }}
+                dot={<CustomDot />}
+                activeDot={<CustomActiveDot />}
                 isAnimationActive={false}
                 name="Rank"
               />
@@ -158,10 +223,10 @@ export const TeamRankGraph = ({
             </LineChart>
           </ResponsiveContainer>
         </div>
-        
+
         <div className="mt-4 text-sm text-gray-300 bg-gray-800/50 p-3 rounded-lg border border-gray-700">
           <p>
-            Teams placed <span className="font-semibold text-indigo-400">at or above rank 4</span> qualify 
+            Teams placed <span className="font-semibold text-indigo-400">at or above rank 4</span> qualify
             for the playoffs.
           </p>
         </div>
