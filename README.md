@@ -31,7 +31,7 @@ This interactive Next.js application provides cricket enthusiasts with a compreh
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ipl-points-table-progression.git
+   git clone https://github.com/bishtk435/ipl-points-table-progression
    cd ipl-points-table-progression
    ```
 
