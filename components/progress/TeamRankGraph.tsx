@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from 'recharts';
-import { PointsTableSnapshot } from '@/types/progress';
-import { motion } from 'framer-motion';
 import { getTeamInfo } from '@/data/teams';
 import Image from 'next/image';
 import { FaTrophy } from 'react-icons/fa';
 import { seasons } from '@/data/seasons';
+import { motion } from 'framer-motion';
+import { PointsTableSnapshot } from '@/types/progress';
 
 interface TeamRankGraphProps {
   progression: PointsTableSnapshot[];
@@ -37,13 +37,20 @@ const CustomDot = (props: DotProps) => {
     <circle 
       cx={cx} 
       cy={cy} 
-      r={4} 
+      r={payload.dotColor === DOT_COLORS.DEFAULT ? 4 : 5} 
       fill={payload.dotColor} 
       stroke="#111" 
       strokeWidth={1}
     />
   );
 };
+
+const DOT_COLORS = {
+  DEFAULT: '#8884d8',
+  NO_RESULT: '#6B7280',
+  WIN: '#10B981',
+  LOSS: '#EF4444',
+}
 
 // Define a custom active dot component
 const CustomActiveDot = (props: DotProps) => {
@@ -54,7 +61,7 @@ const CustomActiveDot = (props: DotProps) => {
     <circle 
       cx={cx} 
       cy={cy} 
-      r={8} 
+      r={6} 
       fill={payload.dotColor} 
       stroke="#fff" 
       strokeWidth={2}
@@ -82,17 +89,15 @@ export const TeamRankGraph = ({
       const isCurrentTeamMatch = snapshot.matchDetails.team1.id === teamId || snapshot.matchDetails.team2.id === teamId;
 
       // Some Default color
-      let dotColor = '#8884d8';
+      let dotColor = DOT_COLORS.DEFAULT;
 
       if (isCurrentTeamMatch) {
-
         if (snapshot.matchDetails.result === "No Result") {
-          dotColor = '#6B7280'; // A muted gray that works well in dark theme
+          dotColor = DOT_COLORS.NO_RESULT;
         } else {
-          // Use proper shades that work well in dark theme
           dotColor = snapshot.matchDetails.winningTeamId === teamId 
-            ? '#10B981' // A vibrant but not too bright green
-            : '#EF4444'; // A rich red that's visible but not harsh
+            ? DOT_COLORS.WIN
+            : DOT_COLORS.LOSS;
         }
       }
       return {
@@ -124,13 +129,14 @@ export const TeamRankGraph = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-700"
+      className="bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-700 flex flex-col h-full"
     >
+      {/* Compact Header */}
       <div className="p-4 bg-gray-900/70 border-b border-gray-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {teamInfo?.teamLogoUrl && (
-              <div className="w-12 h-12 relative mr-3">
+              <div className="w-8 h-8 relative mr-2">
                 <Image
                   src={teamInfo.teamLogoUrl}
                   alt={teamInfo.name || 'Team'}
@@ -140,57 +146,54 @@ export const TeamRankGraph = ({
               </div>
             )}
             <div>
-              <h3 className="text-xl font-semibold text-white flex items-center">
+              <h3 className="text-lg font-semibold text-white flex items-center">
                 {teamInfo?.name || 'Team'}
                 {isChampion && (
-                  <FaTrophy className="ml-2 text-amber-400" size={16} title="Champion Team" />
+                  <FaTrophy className="ml-2 text-amber-400" size={14} title="Champion Team" />
                 )}
               </h3>
-              <div className="text-sm text-gray-300">
-                Rank Progression Analysis
-              </div>
             </div>
           </div>
 
-          <div className="text-right">
-            <div className="text-sm text-gray-400">Current Rank</div>
+          <div className="flex items-center gap-1">
+            <div className="text-xs text-gray-400 mr-2">Current Rank</div>
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-white mr-2">{currentRank}</span>
+              <span className="text-lg font-bold text-white mr-1">{currentRank}</span>
               {rankTrend === 'up' && (
-                <span className="text-green-400 text-xs">▲ Improved</span>
+                <span className="text-green-400 text-xs ml-1">▲</span>
               )}
               {rankTrend === 'down' && (
-                <span className="text-red-400 text-xs">▼ Dropped</span>
+                <span className="text-red-400 text-xs ml-1">▼</span>
               )}
               {rankTrend === 'same' && (
-                <span className="text-gray-400 text-xs">• Unchanged</span>
+                <span className="text-gray-400 text-xs ml-1 font-bold">-</span>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="p-4">
-        <div className="h-72">
+      {/* Expanded Chart Area */}
+      <div className="flex-grow p-2">
+        <div className="h-full min-h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={visibleData}
-              margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
+              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#555" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#555" opacity={0.5} />
               <XAxis
                 dataKey="matchNumber"
-                label={{ value: 'Match Number', position: 'insideBottomRight', offset: -5, fill: '#aaa' }}
                 stroke="#aaa"
-                tick={{ fill: '#aaa' }}
+                tick={{ fill: '#aaa', fontSize: 11 }}
               />
               <YAxis
                 reversed
                 domain={[1, maxRank]}
-                label={{ value: 'Rank', angle: -90, position: 'insideLeft', fill: '#aaa', dy: 50 }}
                 ticks={Array.from({ length: maxRank }, (_, i) => i + 1)}
                 stroke="#aaa"
-                tick={{ fill: '#aaa' }}
+                tick={{ fill: '#aaa', fontSize: 11 }}
+                width={20}
               />
               <Tooltip
                 formatter={(value: number) => [`Rank: ${value}`, '']}
@@ -203,10 +206,10 @@ export const TeamRankGraph = ({
                 stroke="#8883cc"
                 strokeDasharray="3 3"
                 label={{
-                  value: 'Playoff Qualification',
-                  position: 'right',
+                  value: 'Playoffs',
+                  position: 'insideBottomRight',
                   fill: '#8883cc',
-                  fontSize: 12
+                  fontSize: 10
                 }}
               />
               <Line
@@ -219,18 +222,20 @@ export const TeamRankGraph = ({
                 isAnimationActive={false}
                 name="Rank"
               />
-              <Legend verticalAlign="bottom" align="center" />
+              <Legend verticalAlign="bottom" height={15} />
             </LineChart>
           </ResponsiveContainer>
         </div>
+      </div>
 
-        <div className="mt-4 text-sm text-gray-300 bg-gray-800/50 p-3 rounded-lg border border-gray-700">
-          <p>
-            Teams placed <span className="font-semibold text-indigo-400">at or above rank 4</span> qualify
-            for the playoffs.
-          </p>
-        </div>
+      {/* Compact Footer */}
+      <div className="px-3 py-2 text-sm text-gray-300 bg-gray-800/80 border-t border-gray-700">
+        <p className="flex items-center justify-center">
+          <span className="h-0.5 w-12 bg-indigo-400 rounded mr-2"></span>
+          Teams above rank 4 qualify for playoffs
+          <span className="h-0.5 w-12 bg-indigo-400 rounded ml-2"></span>
+        </p>
       </div>
     </motion.div>
   );
-}; 
+};

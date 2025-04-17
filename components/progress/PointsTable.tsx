@@ -119,7 +119,7 @@ export const PointsTable = ({
                         </div>
                       )}
                       <div className="flex flex-col">
-                        <div className="flex items-center text-sm font-medium text-white">
+                        <div className="flex items-center text-sm font-normal text-white">
                           {isLastMatch && isPlayoffTeam ? (
                             <span className="flex items-center">
                               {team.teamName} 
