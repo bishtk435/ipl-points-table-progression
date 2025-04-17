@@ -52,7 +52,7 @@ export const MatchesSidebar = ({
       {/* Scrollable container */}
       <div 
         className="overflow-y-auto matches-scroll-container"
-        style={{ maxHeight: 'calc(100vh - 200px)' }}
+        style={{ maxHeight: '400px' }}
         ref={scrollContainerRef}
       >
         {matches.map((match, index) => (
