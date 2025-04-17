@@ -56,39 +56,23 @@ export const PointsTable = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-700"
+      className="bg-gray-800/90 shadow-xl rounded-lg overflow-hidden border border-gray-700/50 backdrop-blur-sm"
     >
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-900">
-            <tr>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Rank
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Team
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                M
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                W
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                L
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Pts
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                NRR
-              </th>
-              <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Last 5
-              </th>
+        <table className="min-w-full divide-y divide-gray-700/50">
+          <thead className="bg-gray-900/90">
+            <tr className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left">#</th>
+              <th scope="col" className="px-3 py-2 text-left">Team</th>
+              <th scope="col" className="px-3 py-2 text-left">M</th>
+              <th scope="col" className="px-3 py-2 text-left">W</th>
+              <th scope="col" className="px-3 py-2 text-left">L</th>
+              <th scope="col" className="px-3 py-2 text-left">Pts</th>
+              <th scope="col" className="px-3 py-2 text-left">NRR</th>
+              <th scope="col" className="px-3 py-2 text-left">Last 5</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
+          <tbody className="divide-y divide-gray-700/50">
             {pointsTable.map((team, index) => {
               const isPlayoffTeam = team.rank <= 4;
               const isSelected = selectedTeamId === team.teamId;
@@ -100,32 +84,32 @@ export const PointsTable = ({
               return (
                 <motion.tr 
                   key={team.teamId} 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  transition={{ duration: 0.2, delay: index * 0.03 }}
                   className={`
                     cursor-pointer transition-colors duration-200
                     ${isSelected ? 'bg-indigo-700/70 hover:bg-indigo-700/80' : 
                       isPlayoffTeam ? 'bg-indigo-900/30 hover:bg-indigo-900/50' : 
-                      'bg-gray-800 hover:bg-gray-700'}
+                      'bg-gray-800/70 hover:bg-gray-700/80'}
                   `}
                   onClick={() => handleTeamClick(team.teamId)}
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2.5 whitespace-nowrap">
                     <div className={`
-                      flex items-center justify-center w-8 h-8 rounded-full 
+                      flex items-center justify-center w-5 h-5 rounded-full text-xs
                       ${isSelected ? 'bg-indigo-500 text-white' :
                         isChampion ? 'bg-amber-600 text-white' :
                         isPlayoffTeam ? 'bg-indigo-600 text-white' : 'bg-gray-700 text-gray-300'}
-                      font-bold text-sm
+                      font-bold
                     `}>
                       {team.rank}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 py-2.5 whitespace-nowrap">
                     <div className="flex items-center">
                       {teamInfo?.teamLogoUrl && (
-                        <div className="flex-shrink-0 h-10 w-10 relative mr-3">
+                        <div className="flex-shrink-0 h-8 w-8 relative mr-2">
                           <Image
                             src={teamInfo.teamLogoUrl}
                             alt={team.teamName}
@@ -136,38 +120,45 @@ export const PointsTable = ({
                       )}
                       <div className="flex flex-col">
                         <div className="flex items-center text-sm font-medium text-white">
-                          {isLastMatch && isPlayoffTeam ? `${team.teamName} (Q)` : team.teamName}
+                          {isLastMatch && isPlayoffTeam ? (
+                            <span className="flex items-center">
+                              {team.teamName} 
+                              <span className="ml-1 text-xs font-semibold bg-indigo-500 text-white px-1 rounded">Q</span>
+                            </span>
+                          ) : team.teamName}
                           {isChampion && (
-                            <FaTrophy className="ml-2 text-amber-400" size={14} title="Champion Team" />
+                            <FaTrophy className="ml-1.5 text-amber-400" size={12} title="Champion Team" />
                           )}
                         </div>
                         {qualificationMessage && (
-                          <div className="text-xs text-emerald-400 font-medium">
+                          <div className="text-[10px] text-emerald-400 font-medium mt-0.5">
                             {qualificationMessage}
                           </div>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <td className="px-3 py-2.5 whitespace-nowrap text-xs text-gray-300">
                     {team.matches}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-green-400">
+                  <td className="px-3 py-2.5 whitespace-nowrap text-xs text-green-400 font-medium">
                     {team.wins}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-red-400">
+                  <td className="px-3 py-2.5 whitespace-nowrap text-xs text-red-400 font-medium">
                     {team.loss}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-lg font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
+                  <td className="px-3 py-2.5 whitespace-nowrap">
+                    <div className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
                       {team.points}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {team.net_run_rate > 0 ? '+' : ''}{team.net_run_rate.toFixed(3)}
+                  <td className="px-3 py-2.5 whitespace-nowrap text-xs text-gray-300">
+                    <span className={team.net_run_rate > 0 ? 'text-green-400' : team.net_run_rate < 0 ? 'text-red-400' : 'text-gray-400'}>
+                      {team.net_run_rate > 0 ? '+' : ''}{team.net_run_rate.toFixed(3)}
+                    </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex space-x-1">
+                  <td className="px-3 py-2.5 whitespace-nowrap">
+                    <div className="flex space-x-0.5">
                       {last5.map((result, idx) => {
                         let bgColor = 'bg-gray-600';
                         let textColor = 'text-gray-200';
@@ -188,8 +179,8 @@ export const PointsTable = ({
                             key={idx}
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            transition={{ duration: 0.3, delay: 0.3 + idx * 0.1 }}
-                            className={`${bgColor} ${textColor} w-6 h-6 flex items-center justify-center rounded-full text-xs font-medium`}
+                            transition={{ duration: 0.2, delay: 0.2 + idx * 0.05 }}
+                            className={`${bgColor} ${textColor} w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-medium`}
                           >
                             {result}
                           </motion.div>
@@ -201,8 +192,8 @@ export const PointsTable = ({
                           key={`empty-${idx}`}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.3 + (last5.length + idx) * 0.1 }}
-                          className="bg-gray-800 border border-gray-600 w-6 h-6 flex items-center justify-center rounded-full"
+                          transition={{ duration: 0.2, delay: 0.2 + (last5.length + idx) * 0.05 }}
+                          className="bg-gray-800 border border-gray-600 w-5 h-5 flex items-center justify-center rounded-full"
                         />
                       ))}
                     </div>
